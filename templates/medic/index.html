@@ -1,0 +1,59 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+
+<p class="lead fs-1">Buscar Medico</p>
+
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <button class="btn btn-outline-light me-md-4" type="button"
+            onclick="location.href='{% url 'clinic:create_medic' %}'">
+        <img src="{% static 'image/new_user.png'%}" width="30px">
+    </button>
+</div>
+
+
+<div>
+    {% if medics %}
+    <table class="table">
+        <tr>
+            <th scope="col">Tipo de Documento</th>
+            <th scope="col">Identificación</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">celular</th>
+            <th scope="col"></th>
+        </tr>
+        {% for medic in medics %}
+        <tr>
+
+            <td id="{{medic.uuid}}" , scope="row ">{{ medic.document_type }}</td>
+            <td>{{ medic.identity_card }}</td>
+            <td>{{ medic.full_name}}</td>
+            <td>{{ medic.cellphone}}</td>
+            <td>
+                <button type="button" class="btn btn-outline-light me-md"
+                        onclick="open_edition_modal('{% url 'clinic:update_medic' medic.uuid %}')">
+                    <img src="{% static 'image/edit.png'%}" width="20px">
+                </button>
+                <button type="button" class="btn btn-outline-light me-md"
+                        onclick="open_delete_modal('{% url 'clinic:delete_medic' medic.uuid %}')">
+                    <img src="{% static 'image/delete.png'%}" width="20px">
+                </button>
+            </td>
+
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p class="lead fs-5">No hay datos de los Medicos.</p>
+    {% endif %}
+</div>
+
+<div class="modal fade" id="edition" role="dialog">
+
+</div>
+
+<div class="modal fade" id="confirm_delete" role="dialog">
+
+</div>
+
+{% endblock %}

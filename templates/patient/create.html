@@ -1,0 +1,88 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+
+{% if error %}
+<div class="container">
+    <p class="lead fs-1">{{error}}</p>
+</div>
+{% else %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well well-sm">
+                <form class="row g-4" , method="post">
+                    <div class="card-header">
+                        <strong class="lead fs-1">Registrar Paciente</strong>
+                    </div>
+                    <div class="card-body">
+                        <fieldset>
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col col-md-3 col-sm-3 col-xs-3">
+                                    <label class="form-label">{{form.document_type.label}}</label>
+                                    {{form.document_type}}
+                                </div>
+                                <div class="col col-md-3 col-sm-3 col-xs-3">
+                                    <label class="form-label">{{form.identity_card.label}}</label>
+                                    {{form.identity_card}}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col col-md-3 col-sm-3 col-xs-3">
+                                    <label class="form-label">{{form.first_name.label}}</label>
+                                    {{form.first_name}}
+                                </div>
+                                <div class="col col-md-3 col-sm-3 col-xs-3">
+                                    <label class="form-label">{{form.second_name.label}}</label>
+                                    {{form.second_name}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col col-md-3 col-sm-3 col-xs-3">
+                                    <label class="form-label">{{form.surname.label}}</label>
+                                    {{form.surname}}
+                                </div>
+                                <div class="col col-md-3 col-sm-3 col-xs-3">
+                                    <label class="form-label">{{form.second_surname.label}}</label>
+                                    {{form.second_surname}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col col-md-3 col-sm-3 col-xs-3">
+                                    <label class="form-label">{{form.birth_date.label}}</label>
+                                    {{form.birth_date}}
+                                </div>
+                                <div class="col col-md-3 col-sm-3 col-xs-3">
+                                    <label class="form-label">{{form.cellphone.label}}</label>
+                                    {{form.cellphone}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col col-md-3 col-sm-3 col-xs-3">
+                                    <label class="form-label">{{form.email.label}}</label>
+                                    {{form.email}}
+                                </div>
+                                <div class="col col-md-3 col-sm-3 col-xs-3">
+                                    <label class="form-label">{{form.type.label}}</label>
+                                    {{form.type}}
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="card-footer">
+                        <div class="mb-3">
+                            <button class="btn btn-outline-light btn-sm" type="submit">
+                                <img src="{% static 'image/save.png'%}">
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
