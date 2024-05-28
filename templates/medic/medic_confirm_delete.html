@@ -1,0 +1,26 @@
+{% load static %}
+<div class="modal-dialog modal-lg text-center" role="document">
+    <div class="modal-content  text-center">
+        <div class="modal-header text-center">
+            <strong class="lead fs-7">Eliminar Medico</strong>
+            <!--button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            </button-->
+        </div>
+        {% if error %}
+        <div class="modal-body text-center">
+            <p class="lead fs-1">{{error}}</p>
+        </div>
+        {% else %}
+        <form action="{% url 'clinic:delete_medic' object.uuid %}" method="post">
+            <div class="modal-body text-center">
+                {% csrf_token %}
+                <p class="lead fs-4">¿Está seguro de eliminar a {{object}}?</p>
+
+            </div>
+            <div class="modal-footer justify-content-md-end">
+                <button class="btn btn-outline-danger me-md-2" type="submit">Eliminar</button>
+            </div>
+        </form>
+        {% endif %}
+    </div>
+</div>

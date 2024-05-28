@@ -1,0 +1,95 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+
+<p class="lead fs-1">Buscar Paciente</p>
+
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <button class="btn btn-outline-light me-md-4" type="button"
+            onclick="location.href='{% url 'clinic:create_patient' %}'"><img src="{% static 'image/new_user.png'%}"
+                                                                             width="30px">
+    </button>
+</div>
+
+<div class="container-sm">
+    <form class="row g" action="{% url 'clinic:patients' %}" method="get">
+        {% csrf_token %}
+
+        <div class="mb-3 col-sm-6  ">
+            <label for="{{form.filter.name}}" class="form-label">{{form.filter.label}}</label>
+            <input type="text" class="form-control form-control-sm col-lg-6" name="{{form.filter.name}}"
+                   id="{{form.filter.name}}" required>
+            <em>Puedes filtrar por Identificación, Nombre o Apellido, Email y Celular</em>
+        </div>
+        <div class="mb-3">
+            <button class="btn btn-light" type="submit"><img src="{% static 'image/buscar.png'%}" width="30px"></button>
+        </div>
+
+    </form>
+    <hr>
+    <div>
+        {% if error %}
+        <figure class="text-center">
+            <blockquote class="blockquote">
+                <p>{{ error }}</p>
+            </blockquote>
+            <figcaption class="blockquote-footer">
+                Contacte al administrador<!--cite title="Source Title">Source Title</cite-->
+            </figcaption>
+        </figure>
+
+        {% else %}
+        {% if patients %}
+        <table class="table">
+            <tr>
+                <th scope="col">Tipo de Documento</th>
+                <th scope="col">Identificación</th>
+                <th scope="col">Nombre Completo</th>
+                <th scope="col">Email</th>
+                <th scope="col">celular</th>
+                <th scope="col"></th>
+            </tr>
+            {% for patient in patients %}
+            <tr>
+                <td id="{{patient.uuid}}" scope="row">{{ patient.document_type }}</td>
+                <td>{{ patient.identity_card }}</td>
+                <td>{{ patient.full_name }}</td>
+                <td>{{ patient.email }}</td>
+                <td>{{ patient.cellphone}}</td>
+                <td>
+                    <button type="button" class="btn btn-outline-light"
+                            onclick="location.href='{% url 'clinic:edit_patient' patient.uuid %}'">
+                        <img src="{% static 'image/edit.png'%}" width="15px">
+                    </button>
+                    <button type="button" class="btn btn-outline-light"
+                            onclick="location.href='{% url 'clinic:delete_patient' patient.uuid %}'">
+                        <img src="{% static 'image/delete.png'%}" width="15px">
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <div class="fixed-table-footer">
+            <div class="btn-toolbar " role="toolbar">
+                <div class="btn-group text-center" role="group" aria-label="Basic example">
+                    {% if patients.has_previous %}
+
+                    <a href="?page={{ patients.previous_page_number }} {% if request.GET.filter %}&filter={{request.GET.filter}} {% endif %}"
+                       class="btn btn-light"><img src="{% static 'image/previous.png'%}" width="30px"></a>
+
+                    {% endif %}
+                    {% if patients.has_next %}
+                    <a href="?page={{ patients.next_page_number }}{% if request.GET.filter %}&filter={{request.GET.filter}}{% endif %}"
+                       class="btn btn-light float-right"><img src="{% static 'image/next.png'%}" width="30px"></a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% else %}
+
+        <p class="lead fs-5 danger">No hay datos con el filtro aplicados.</p>
+        {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+{% if error %}
+<p class="lead fs-1">{{error}}</p>
+{% else %}
+<form method="post">
+    {% csrf_token %}
+    <p class="lead fs-2">¿Está seguro de eliminar a {{patient.first_name}} {{patient.second_name}} {{patient.surname}}
+                         {{patient.second_surname}}?</p>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button class="btn btn-outline-danger me-md-2" type="submit">Eliminar</button>
+    </div>
+</form>
+{% endif %}
+{% endblock content %}
